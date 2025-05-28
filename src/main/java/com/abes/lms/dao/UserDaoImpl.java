@@ -17,5 +17,27 @@ public class UserDaoImpl implements UserDao {
         CollectionUtil.addUser(user);
     }
 
-  
+    @Override
+    public UserDto findUserByName(String name) throws UserNotFoundException {
+        UserDto user = CollectionUtil.findUserByName(name);
+        if (user == null) {
+            throw new UserNotFoundException("User '" + name + "' not found");
+        }
+        return user;
+    }
+
+    @Override
+    public boolean isUserExists(String name) {
+        return CollectionUtil.isUserExists(name);
+    }
+
+    @Override
+    public boolean authenticateUser(String name, String password) {
+        try {
+            UserDto user = findUserByName(name);
+            return user.getPassword().equals(password);
+        } catch (UserNotFoundException e) {
+            return false;
+        }
+    }
 }
