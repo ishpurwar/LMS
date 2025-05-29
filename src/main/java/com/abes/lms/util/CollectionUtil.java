@@ -61,5 +61,30 @@ public class CollectionUtil {
         return new ArrayList<>(users);
     }
 
+    //more changes
+
+    public static void addUser(UserDto user) {
+        users.add(user);
+    }
+
+    public static UserDto findUserByName(String name) {
+        return users.stream()
+                .filter(user -> user.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static boolean isUserExists(String name) {
+        return users.stream()
+                .anyMatch(user -> user.getName().equalsIgnoreCase(name));
+    }
+
+    public static int getNextBookId() {
+        return books.stream()
+                .mapToInt(BookDTO::getId)
+                .max()
+                .orElse(100) + 1;
+    }
+
     
 }
