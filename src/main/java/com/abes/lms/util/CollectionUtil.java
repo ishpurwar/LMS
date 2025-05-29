@@ -1,9 +1,10 @@
 package com.abes.lms.util;
 
-import com.abes.lms.dto.BookDTO;
-import com.abes.lms.dto.UserDto;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.abes.lms.dto.BookDTO;
+import com.abes.lms.dto.UserDto;
 
 public class CollectionUtil {
     // Static data structures to store all data
