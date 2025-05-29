@@ -1,4 +1,17 @@
-private Scanner scanner;
+package com.abes.lms.ui;
+
+import com.abes.lms.dto.BookDTO;
+import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookNotFoundException;
+import com.abes.lms.exception.InputValidationException;
+import com.abes.lms.exception.UserNotFoundException;
+import com.abes.lms.service.LibrarianService;
+import com.abes.lms.service.UserService;
+import java.util.List;
+import java.util.Scanner;
+
+public class Ui {
+    private Scanner scanner;
     private UserService userService;
     private LibrarianService librarianService;
     private String currentUser;
@@ -49,94 +62,107 @@ private Scanner scanner;
                 System.out.println("Please enter a valid number.");
             }
         }
-         private void addBook() {
-        System.out.println("--- ADD BOOK ---");
-        System.out.print("Enter book title: ");
-        String title = scanner.nextLine();
-        System.out.print("Enter author: ");
-        String author = scanner.nextLine();
-        System.out.print("Enter rating (0.0-5.0): ");
+    }
+
+    private void userRegistration() {
+        System.out.println("\n--- USER REGISTRATION ---");
+        System.out.print("Enter username: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
 
         try {
-            double rating = Double.parseDouble(scanner.nextLine());
-            librarianService.addBook(title, author, rating);
-            System.out.println("Book added successfully!");
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid rating format. Please enter a decimal number.");
+            userService.registerUser(name, password);
+            System.out.println("Registration successful!");
         } catch (InputValidationException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-    private void removeBook() {
-        System.out.print("Enter book title to remove: ");
-        String title = scanner.nextLine();
-
-        try {
-            librarianService.removeBook(title);
-            System.out.println("Book removed successfully!");
-        } catch (BookNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Registration failed: " + e.getMessage());
         }
     }
 
-    private void checkBookPresent() {
-        System.out.print("Enter book title to check: ");
-        String title = scanner.nextLine();
+    private void userLogin() {
+        System.out.println("\n--- USER LOGIN ---");
+        System.out.print("Enter username: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
 
-        if (librarianService.isBookPresent(title)) {
-            System.out.println("Book '" + title + "' is present in the library.");
+        if (userService.authenticateUser(name, password)) {
+            System.out.println("Login successful! Welcome, " + name);
+            currentUser = name;
+            userMenu();
         } else {
-            System.out.println("Book '" + title + "' is not found in the library.");
+            System.out.println("Invalid credentials. Please try again.");
         }
     }
 
-    private void showAllUsers() {
-        List<UserDto> users = librarianService.showAllUsers();
-        System.out.println("\n--- ALL USERS ---");
-        if (users.isEmpty()) {
-            System.out.println("No users registered.");
+    private void librarianLogin() {
+        System.out.println("\n--- LIBRARIAN LOGIN ---");
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+
+        if (librarianService.authenticateLibrarian(username, password)) {
+            System.out.println("Login successful! Welcome, Librarian");
+            librarianMenu();
         } else {
-            users.forEach(user -> {
-                System.out.println(user);
-                if (!user.getBorrowedBooks().isEmpty()) {
-                    System.out.println("  Borrowed books:");
-                    user.getBorrowedBooks().forEach(book -> 
-                        System.out.println("    - " + book.getTitle()));
+            System.out.println("Invalid credentials. Please try again.");
+        }
+    }
+
+    private void userMenu() {
+        while (true) {
+            System.out.println("\n--- USER MENU ---");
+            System.out.println("1. Show All Books");
+            System.out.println("2. Borrow Book");
+            System.out.println("3. Return Book");
+            System.out.println("4. Edit Profile");
+            System.out.println("5. Sort Books by ID");
+            System.out.println("6. Sort Books by Rating");
+            System.out.println("7. Sort Books by Title");
+            System.out.println("8. View My Profile");
+            System.out.println("9. Logout");
+            System.out.print("Choose an option: ");
+
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        showAllBooks();
+                        break;
+                    case 2:
+                        borrowBook();
+                        break;
+                    case 3:
+                        returnBook();
+                        break;
+                    case 4:
+                        editProfile();
+                        break;
+                    case 5:
+                        sortBooksById();
+                        break;
+                    case 6:
+                        sortBooksByRating();
+                        break;
+                    case 7:
+                        sortBooksByTitle();
+                        break;
+                    case 8:
+                        viewProfile();
+                        break;
+                    case 9:
+                        currentUser = null;
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
                 }
-            });
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
         }
     }
 
-    private void sortBooksById() {
-        List<BookDTO> books = userService.sortBooksById();
-        System.out.println("\n--- BOOKS SORTED BY ID ---");
-        books.forEach(System.out::println);
-    }
-
-    private void sortBooksByRating() {
-        List<BookDTO> books = userService.sortBooksByRating();
-        System.out.println("\n--- BOOKS SORTED BY RATING ---");
-        books.forEach(System.out::println);
-    }
-
-    private void sortBooksByTitle() {
-        List<BookDTO> books = userService.sortBooksByTitle();
-        System.out.println("\n--- BOOKS SORTED BY TITLE ---");
-        books.forEach(System.out::println);
-    }
-
-    private void viewProfile() {
-        try {
-            UserDto user = userService.getUserDetails(currentUser);
-            System.out.println("\n--- MY PROFILE ---");
-            System.out.println("Username: " + user.getName());
-            System.out.println("Borrowed Books: " + user.getBorrowedBooks().size());
-            if (!user.getBorrowedBooks().isEmpty()) {
-                System.out.println("Books borrowed:");
-                user.getBorrowedBooks().forEach(book -> 
-                    System.out.println("  - " + book.getTitle()));
-            }
-        } catch (UserNotFoundException e) {
     private void librarianMenu() {
         while (true) {
             System.out.println("\n--- LIBRARIAN MENU ---");
@@ -228,6 +254,100 @@ private Scanner scanner;
             System.out.println("Profile updated successfully!");
         } catch (UserNotFoundException | InputValidationException e) {
             System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void sortBooksById() {
+        List<BookDTO> books = userService.sortBooksById();
+        System.out.println("\n--- BOOKS SORTED BY ID ---");
+        books.forEach(System.out::println);
+    }
+
+    private void sortBooksByRating() {
+        List<BookDTO> books = userService.sortBooksByRating();
+        System.out.println("\n--- BOOKS SORTED BY RATING ---");
+        books.forEach(System.out::println);
+    }
+
+    private void sortBooksByTitle() {
+        List<BookDTO> books = userService.sortBooksByTitle();
+        System.out.println("\n--- BOOKS SORTED BY TITLE ---");
+        books.forEach(System.out::println);
+    }
+
+    private void viewProfile() {
+        try {
+            UserDto user = userService.getUserDetails(currentUser);
+            System.out.println("\n--- MY PROFILE ---");
+            System.out.println("Username: " + user.getName());
+            System.out.println("Borrowed Books: " + user.getBorrowedBooks().size());
+            if (!user.getBorrowedBooks().isEmpty()) {
+                System.out.println("Books borrowed:");
+                user.getBorrowedBooks().forEach(book -> 
+                    System.out.println("  - " + book.getTitle()));
+            }
+        } catch (UserNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    // Librarian Operations
+    private void addBook() {
+        System.out.println("--- ADD BOOK ---");
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter author: ");
+        String author = scanner.nextLine();
+        System.out.print("Enter rating (0.0-5.0): ");
+
+        try {
+            double rating = Double.parseDouble(scanner.nextLine());
+            librarianService.addBook(title, author, rating);
+            System.out.println("Book added successfully!");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid rating format. Please enter a decimal number.");
+        } catch (InputValidationException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void removeBook() {
+        System.out.print("Enter book title to remove: ");
+        String title = scanner.nextLine();
+
+        try {
+            librarianService.removeBook(title);
+            System.out.println("Book removed successfully!");
+        } catch (BookNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void checkBookPresent() {
+        System.out.print("Enter book title to check: ");
+        String title = scanner.nextLine();
+
+        if (librarianService.isBookPresent(title)) {
+            System.out.println("Book '" + title + "' is present in the library.");
+        } else {
+            System.out.println("Book '" + title + "' is not found in the library.");
+        }
+    }
+
+    private void showAllUsers() {
+        List<UserDto> users = librarianService.showAllUsers();
+        System.out.println("\n--- ALL USERS ---");
+        if (users.isEmpty()) {
+            System.out.println("No users registered.");
+        } else {
+            users.forEach(user -> {
+                System.out.println(user);
+                if (!user.getBorrowedBooks().isEmpty()) {
+                    System.out.println("  Borrowed books:");
+                    user.getBorrowedBooks().forEach(book -> 
+                        System.out.println("    - " + book.getTitle()));
+                }
+            });
         }
     }
 }
