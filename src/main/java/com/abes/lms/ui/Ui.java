@@ -106,4 +106,128 @@ private Scanner scanner;
             });
         }
     }
+
+    private void sortBooksById() {
+        List<BookDTO> books = userService.sortBooksById();
+        System.out.println("\n--- BOOKS SORTED BY ID ---");
+        books.forEach(System.out::println);
+    }
+
+    private void sortBooksByRating() {
+        List<BookDTO> books = userService.sortBooksByRating();
+        System.out.println("\n--- BOOKS SORTED BY RATING ---");
+        books.forEach(System.out::println);
+    }
+
+    private void sortBooksByTitle() {
+        List<BookDTO> books = userService.sortBooksByTitle();
+        System.out.println("\n--- BOOKS SORTED BY TITLE ---");
+        books.forEach(System.out::println);
+    }
+
+    private void viewProfile() {
+        try {
+            UserDto user = userService.getUserDetails(currentUser);
+            System.out.println("\n--- MY PROFILE ---");
+            System.out.println("Username: " + user.getName());
+            System.out.println("Borrowed Books: " + user.getBorrowedBooks().size());
+            if (!user.getBorrowedBooks().isEmpty()) {
+                System.out.println("Books borrowed:");
+                user.getBorrowedBooks().forEach(book -> 
+                    System.out.println("  - " + book.getTitle()));
+            }
+        } catch (UserNotFoundException e) {
+    private void librarianMenu() {
+        while (true) {
+            System.out.println("\n--- LIBRARIAN MENU ---");
+            System.out.println("1. Add Book");
+            System.out.println("2. Remove Book");
+            System.out.println("3. Check if Book Present");
+            System.out.println("4. Show All Books");
+            System.out.println("5. Show All Users");
+            System.out.println("6. Logout");
+            System.out.print("Choose an option: ");
+
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        addBook();
+                        break;
+                    case 2:
+                        removeBook();
+                        break;
+                    case 3:
+                        checkBookPresent();
+                        break;
+                    case 4:
+                        showAllBooks();
+                        break;
+                    case 5:
+                        showAllUsers();
+                        break;
+                    case 6:
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
+
+    // User Operations
+    private void showAllBooks() {
+        List<BookDTO> books = userService.showAllBooks();
+        System.out.println("\n--- ALL BOOKS ---");
+        if (books.isEmpty()) {
+            System.out.println("No books available.");
+        } else {
+            books.forEach(System.out::println);
+        }
+    }
+
+    private void borrowBook() {
+        System.out.print("Enter book title to borrow: ");
+        String title = scanner.nextLine();
+
+        try {
+            userService.borrowBook(currentUser, title);
+            System.out.println("Book borrowed successfully!");
+        } catch (BookNotFoundException | UserNotFoundException | InputValidationException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void returnBook() {
+        System.out.print("Enter book title to return: ");
+        String title = scanner.nextLine();
+
+        try {
+            userService.returnBook(currentUser, title);
+            System.out.println("Book returned successfully!");
+        } catch (BookNotFoundException | UserNotFoundException | InputValidationException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+    private void editProfile() {
+        System.out.println("--- EDIT PROFILE ---");
+        System.out.print("Enter new username (press Enter to skip): ");
+        String newName = scanner.nextLine();
+        System.out.print("Enter new password (press Enter to skip): ");
+        String newPassword = scanner.nextLine();
+
+        try {
+            userService.editUserDetails(currentUser, newName.isEmpty() ? null : newName, 
+                                       newPassword.isEmpty() ? null : newPassword);
+            if (!newName.isEmpty()) {
+                currentUser = newName;
+            }
+            System.out.println("Profile updated successfully!");
+        } catch (UserNotFoundException | InputValidationException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }
