@@ -7,7 +7,8 @@ import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
 
 public class CollectionUtil {
-     private static List<BookDTO> books = new ArrayList<>();
+    // Static data structures to store all data
+    private static List<BookDTO> books = new ArrayList<>();
     private static List<UserDto> users = new ArrayList<>();
     
     // Default librarian credentials
@@ -49,4 +50,16 @@ public class CollectionUtil {
                 .findFirst()
                 .orElse(null);
     }
+
+    public static boolean isBookPresent(String title) {
+        return books.stream()
+                .anyMatch(book -> book.getTitle().equalsIgnoreCase(title));
+    }
+
+    // User-related static methods
+    public static List<UserDto> getAllUsers() {
+        return new ArrayList<>(users);
+    }
+
+    
 }
