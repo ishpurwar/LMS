@@ -227,7 +227,6 @@ private Scanner scanner;
             }
             System.out.println("Profile updated successfully!");
         } catch (UserNotFoundException | InputValidationException e) {
-          main
             System.out.println("Error: " + e.getMessage());
         }
     }
