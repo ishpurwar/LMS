@@ -106,4 +106,37 @@ private Scanner scanner;
             });
         }
     }
+    private void sortBooksById() {
+        List<BookDTO> books = userService.sortBooksById();
+        System.out.println("\n--- BOOKS SORTED BY ID ---");
+        books.forEach(System.out::println);
+    }
+
+    private void sortBooksByRating() {
+        List<BookDTO> books = userService.sortBooksByRating();
+        System.out.println("\n--- BOOKS SORTED BY RATING ---");
+        books.forEach(System.out::println);
+    }
+
+    private void sortBooksByTitle() {
+        List<BookDTO> books = userService.sortBooksByTitle();
+        System.out.println("\n--- BOOKS SORTED BY TITLE ---");
+        books.forEach(System.out::println);
+    }
+
+    private void viewProfile() {
+        try {
+            UserDto user = userService.getUserDetails(currentUser);
+            System.out.println("\n--- MY PROFILE ---");
+            System.out.println("Username: " + user.getName());
+            System.out.println("Borrowed Books: " + user.getBorrowedBooks().size());
+            if (!user.getBorrowedBooks().isEmpty()) {
+                System.out.println("Books borrowed:");
+                user.getBorrowedBooks().forEach(book -> 
+                    System.out.println("  - " + book.getTitle()));
+            }
+        } catch (UserNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }
