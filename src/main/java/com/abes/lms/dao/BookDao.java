@@ -16,4 +16,3 @@ public interface BookDao {
     List<BookDTO> sortBooksById();
     List<BookDTO> sortBooksByTitle();
 }
-
