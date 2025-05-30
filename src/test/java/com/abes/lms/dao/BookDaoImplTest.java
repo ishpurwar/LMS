@@ -108,6 +108,43 @@ public class BookDaoImplTest {
 	}
 
 	@Test
+	@DisplayName("Should sort books by rating in descending order")
+	void testSortBooksByRating() {
+		List<BookDTO> sortedBooks = bookDao.sortBooksByRating();
+		assertNotNull(sortedBooks, "Sorted books list should not be null");
+		assertFalse(sortedBooks.isEmpty(), "Sorted books list should not be empty");
+		for (int i = 0; i < sortedBooks.size() - 1; i++) {
+			assertTrue(sortedBooks.get(i).getRating() >= sortedBooks.get(i + 1).getRating(),
+					"Books should be sorted by rating in descending order");
+		}
+	}
+
+	@Test
+	@DisplayName("Should sort books by ID in ascending order")
+	void testSortBooksById() {
+		List<BookDTO> sortedBooks = bookDao.sortBooksById();
+		assertNotNull(sortedBooks, "Sorted books list should not be null");
+		assertFalse(sortedBooks.isEmpty(), "Sorted books list should not be empty");
+		for (int i = 0; i < sortedBooks.size() - 1; i++) {
+			assertTrue(sortedBooks.get(i).getId() <= sortedBooks.get(i + 1).getId(),
+					"Books should be sorted by ID in ascending order");
+		}
+	}
+
+	@Test
+	@DisplayName("Should sort books by title alphabetically")
+	void testSortBooksByTitle() {
+		List<BookDTO> sortedBooks = bookDao.sortBooksByTitle();
+		assertNotNull(sortedBooks, "Sorted books list should not be null");
+		assertFalse(sortedBooks.isEmpty(), "Sorted books list should not be empty");
+
+		for (int i = 0; i < sortedBooks.size() - 1; i++) {
+			assertTrue(sortedBooks.get(i).getTitle().compareTo(sortedBooks.get(i + 1).getTitle()) <= 0,
+					"Books should be sorted by title alphabetically");
+		}
+	}
+
+	@Test
 	@DisplayName("Should handle case insensitive search")
 	void testCaseInsensitiveOperations() throws BookNotFoundException {
 		bookDao.addBook(testBook);
