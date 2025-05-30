@@ -59,6 +59,43 @@ public class CollectionUtilTest {
         boolean removed = CollectionUtil.removeBook("Non Existent Book");
         assertFalse(removed);
     }
+    
+    @Test
+    void testRemoveBook_CaseInsensitive() {
+        CollectionUtil.addBook(testBook);
+        assertTrue(CollectionUtil.removeBook("test book"));
+        assertFalse(CollectionUtil.isBookPresent("Test Book"));
+    }
+
+    @Test
+    void testFindBookByTitle_Exists() {
+        CollectionUtil.addBook(testBook);
+        BookDTO found = CollectionUtil.findBookByTitle("Test Book");
+        assertNotNull(found);
+        assertEquals(testBook, found);
+    }
+
+    @Test
+    void testFindBookByTitle_NotExists() {
+        BookDTO found = CollectionUtil.findBookByTitle("Non Existent Book");
+        assertNull(found);
+    }
+
+    @Test
+    void testFindBookByTitle_CaseInsensitive() {
+        CollectionUtil.addBook(testBook);
+        BookDTO found = CollectionUtil.findBookByTitle("test book");
+        assertNotNull(found);
+        assertEquals(testBook, found);
+    }
+
+    @Test
+    void testFindBookById_Exists() {
+        CollectionUtil.addBook(testBook);
+        BookDTO found = CollectionUtil.findBookById(999);
+        assertNotNull(found);
+        assertEquals(testBook, found);
+    }
 
     
 }
