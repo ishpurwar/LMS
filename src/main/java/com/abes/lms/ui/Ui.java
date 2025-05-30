@@ -112,7 +112,7 @@ public class Ui {
 
 	private void userMenu() {
 		while (true) {
-			System.out.println("\n--- USER MENU ---");
+			System.out.println("\n---- USER MENU ----");
 			System.out.println("1. Show All Books");
 			System.out.println("2. Borrow Book");
 			System.out.println("3. Return Book");
