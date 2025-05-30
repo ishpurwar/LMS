@@ -224,6 +224,105 @@ public class UserServiceTest {
 		assertTrue(userService.authenticateUser(newName, newPassword));
 		assertFalse(userService.authenticateUser(TEST_USER, TEST_PASSWORD));
 	}
+	@Test
+	@DisplayName("Should edit only username when password is null")
+	void testEditUserDetails_OnlyUsername() throws Exception {
+		userService.registerUser(TEST_USER, TEST_PASSWORD);
 
+		String newName = "newusername";
+
+		assertDoesNotThrow(() -> {
+			userService.editUserDetails(TEST_USER, newName, null);
+		});
+
+		assertTrue(userService.authenticateUser(newName, TEST_PASSWORD));
+	}
+
+	@Test
+	@DisplayName("Should edit only password when username is null")
+	void testEditUserDetails_OnlyPassword() throws Exception {
+		userService.registerUser(TEST_USER, TEST_PASSWORD);
+
+		String newPassword = "newpassword123";
+
+		assertDoesNotThrow(() -> {
+			userService.editUserDetails(TEST_USER, null, newPassword);
+		});
+
+		assertTrue(userService.authenticateUser(TEST_USER, newPassword));
+	}
+
+	@Test
+	@DisplayName("Should throw exception when editing to existing username")
+	void testEditUserDetails_DuplicateUsername() throws Exception {
+		userService.registerUser(TEST_USER, TEST_PASSWORD);
+		userService.registerUser("existinguser", TEST_PASSWORD);
+
+		InputValidationException exception = assertThrows(InputValidationException.class, () -> {
+			userService.editUserDetails(TEST_USER, "existinguser", null);
+		});
+		assertTrue(exception.getMessage().contains("already exists"));
+	}
+
+	@Test
+	@DisplayName("Should sort books by ID")
+	void testSortBooksById() {
+		List<BookDTO> sortedBooks = userService.sortBooksById();
+
+		assertNotNull(sortedBooks);
+		assertFalse(sortedBooks.isEmpty());
+
+		for (int i = 1; i < sortedBooks.size(); i++) {
+			assertTrue(sortedBooks.get(i - 1).getId() <= sortedBooks.get(i).getId());
+		}
+	}
+
+	@Test
+	@DisplayName("Should sort books by rating in descending order")
+	void testSortBooksByRating() {
+		List<BookDTO> sortedBooks = userService.sortBooksByRating();
+
+		assertNotNull(sortedBooks);
+		assertFalse(sortedBooks.isEmpty());
+
+		for (int i = 1; i < sortedBooks.size(); i++) {
+			assertTrue(sortedBooks.get(i - 1).getRating() >= sortedBooks.get(i).getRating());
+		}
+	}
+
+	@Test
+	@DisplayName("Should sort books by title alphabetically")
+	void testSortBooksByTitle() {
+		List<BookDTO> sortedBooks = userService.sortBooksByTitle();
+
+		assertNotNull(sortedBooks);
+		assertFalse(sortedBooks.isEmpty());
+
+		for (int i = 1; i < sortedBooks.size(); i++) {
+			assertTrue(sortedBooks.get(i - 1).getTitle().compareTo(sortedBooks.get(i).getTitle()) <= 0);
+		}
+	}
+
+	@Test
+	@DisplayName("Should get user details successfully")
+	void testGetUserDetails_Success() throws Exception {
+		userService.registerUser(TEST_USER, TEST_PASSWORD);
+
+		UserDto user = userService.getUserDetails(TEST_USER);
+
+		assertNotNull(user);
+		assertEquals(TEST_USER, user.getName());
+		assertEquals(TEST_PASSWORD, user.getPassword());
+		assertNotNull(user.getBorrowedBooks());
+	}
+
+	@Test
+	@DisplayName("Should throw exception when getting details of non-existent user")
+	void testGetUserDetails_UserNotFound() {
+		UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> {
+			userService.getUserDetails("nonexistent");
+		});
+		assertTrue(exception.getMessage().contains("not found"));
+	}
 
 }
