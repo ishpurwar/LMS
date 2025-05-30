@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
-
 public class CollectionUtil {
     // Static data structures to store all data
     private static List<BookDTO> books = new ArrayList<>();
     private static List<UserDto> users = new ArrayList<>();
-    
+
     // Default librarian credentials
     public static final String LIBRARIAN_USERNAME = "admin";
     public static final String LIBRARIAN_PASSWORD = "admin123";
@@ -61,8 +60,6 @@ public class CollectionUtil {
         return new ArrayList<>(users);
     }
 
-    //more changes
-
     public static void addUser(UserDto user) {
         users.add(user);
     }
@@ -85,6 +82,4 @@ public class CollectionUtil {
                 .max()
                 .orElse(100) + 1;
     }
-
-    
 }
