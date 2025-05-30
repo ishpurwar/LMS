@@ -177,5 +177,41 @@ public class CollectionUtilTest {
         assertTrue(CollectionUtil.isUserExists("TestUser"));
     }
 
-   
+    @Test
+    void testGetNextBookId() {
+        int nextId = CollectionUtil.getNextBookId();
+        assertTrue(nextId > 100);
+
+        BookDTO highIdBook = new BookDTO("High ID Book", "Author", 9999, 5.0);
+        CollectionUtil.addBook(highIdBook);
+
+        int newNextId = CollectionUtil.getNextBookId();
+        assertEquals(10000, newNextId);
+    }
+
+    @Test
+    void testGetNextBookId_EmptyList() {
+
+        int nextId = CollectionUtil.getNextBookId();
+        assertTrue(nextId > 0);
+    }
+
+    @Test
+    void testLibrarianCredentials() {
+        assertEquals("admin", CollectionUtil.LIBRARIAN_USERNAME);
+        assertEquals("admin123", CollectionUtil.LIBRARIAN_PASSWORD);
+    }
+
+    @Test
+    void testSampleDataExists() {
+        List<BookDTO> books = CollectionUtil.getAllBooks();
+
+        boolean hasJavaBook = books.stream()
+                .anyMatch(book -> book.getTitle().contains("Java"));
+        assertTrue(hasJavaBook);
+
+        boolean hasEffectiveJava = books.stream()
+                .anyMatch(book -> book.getTitle().equals("Effective Java"));
+        assertTrue(hasEffectiveJava);
+    }
 }
