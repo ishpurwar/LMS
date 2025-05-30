@@ -22,12 +22,11 @@ public class LibrarianService {
     }
 
     public boolean authenticateLibrarian(String username, String password) {
-        return CollectionUtil.LIBRARIAN_USERNAME.equals(username) && 
-               CollectionUtil.LIBRARIAN_PASSWORD.equals(password);
+        return CollectionUtil.LIBRARIAN_USERNAME.equals(username) &&
+                CollectionUtil.LIBRARIAN_PASSWORD.equals(password);
     }
 
-   
- public void addBook(String title, String author, double rating) throws InputValidationException {
+    public void addBook(String title, String author, double rating) throws InputValidationException {
         InputValidator.validateBookTitle(title);
         InputValidator.validateAuthor(author);
         InputValidator.validateRating(rating);
@@ -40,7 +39,7 @@ public class LibrarianService {
         BookDTO book = new BookDTO(title, author, id, rating);
         bookDao.addBook(book);
     }
-    
+
     public boolean isBookPresent(String title) {
         return bookDao.isBookPresent(title);
     }
