@@ -96,6 +96,60 @@ public class CollectionUtilTest {
         assertNotNull(found);
         assertEquals(testBook, found);
     }
-
     
+    @Test
+    void testFindBookById_NotExists() {
+        BookDTO found = CollectionUtil.findBookById(99999);
+        assertNull(found);
+    }
+
+    @Test
+    void testIsBookPresent_Exists() {
+        CollectionUtil.addBook(testBook);
+        assertTrue(CollectionUtil.isBookPresent("Test Book"));
+    }
+
+    @Test
+    void testIsBookPresent_NotExists() {
+        assertFalse(CollectionUtil.isBookPresent("Non Existent Book"));
+    }
+
+    @Test
+    void testIsBookPresent_CaseInsensitive() {
+        CollectionUtil.addBook(testBook);
+        assertTrue(CollectionUtil.isBookPresent("test book"));
+        assertTrue(CollectionUtil.isBookPresent("TEST BOOK"));
+    }
+
+    @Test
+    void testGetAllUsers_InitiallyEmpty() {
+        List<UserDto> users = CollectionUtil.getAllUsers();
+        assertNotNull(users);
+    }
+
+    @Test
+    void testAddUser() {
+        int initialSize = CollectionUtil.getAllUsers().size();
+        CollectionUtil.addUser(testUser);
+
+        List<UserDto> users = CollectionUtil.getAllUsers();
+        assertEquals(initialSize + 1, users.size());
+        assertTrue(users.contains(testUser));
+    }
+
+    @Test
+    void testFindUserByName_Exists() {
+        CollectionUtil.addUser(testUser);
+        UserDto found = CollectionUtil.findUserByName("testuser");
+        assertNotNull(found);
+        assertEquals(testUser, found);
+    }
+
+    @Test
+    void testFindUserByName_NotExists() {
+        UserDto found = CollectionUtil.findUserByName("nonexistentuser");
+        assertNull(found);
+    }
+
+  
 }
