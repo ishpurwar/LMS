@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 @DisplayName("UserDao Implementation Tests")
-public class UserDaoImplTest {
+public class UserDaoimplTest {
 
 	private UserDao userDao;
 	private UserDto testUser;
