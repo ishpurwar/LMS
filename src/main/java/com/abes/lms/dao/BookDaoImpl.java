@@ -27,5 +27,47 @@ public class BookDaoImpl implements BookDao {
         return CollectionUtil.removeBook(title);
     }
 
-  
+    @Override
+    public BookDTO findBookByTitle(String title) throws BookNotFoundException {
+        BookDTO book = CollectionUtil.findBookByTitle(title);
+        if (book == null) {
+            throw new BookNotFoundException("Book '" + title + "' not found");
+        }
+        return book;
+    }
+
+    @Override
+    public BookDTO findBookById(int id) throws BookNotFoundException {
+        BookDTO book = CollectionUtil.findBookById(id);
+        if (book == null) {
+            throw new BookNotFoundException("Book with ID " + id + " not found");
+        }
+        return book;
+    }
+
+    @Override
+    public boolean isBookPresent(String title) {
+        return CollectionUtil.isBookPresent(title);
+    }
+
+    @Override
+    public List<BookDTO> sortBooksByRating() {
+        return getAllBooks().stream()
+                .sorted(Comparator.comparing(BookDTO::getRating).reversed())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDTO> sortBooksById() {
+        return getAllBooks().stream()
+                .sorted(Comparator.comparing(BookDTO::getId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDTO> sortBooksByTitle() {
+        return getAllBooks().stream()
+                .sorted(Comparator.comparing(BookDTO::getTitle))
+                .collect(Collectors.toList());
+    }
 }
