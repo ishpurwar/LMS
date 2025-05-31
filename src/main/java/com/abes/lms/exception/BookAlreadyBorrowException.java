@@ -6,8 +6,6 @@ public class BookAlreadyBorrowException extends Exception {
         super(message);
     }
 
-    public BookAlreadyBorrowException(String message, Throwable cause) {
-        super(message, cause);
-    }
+ 
 
 }
