@@ -1,7 +1,31 @@
 package com.abes.lms.dto;
 
+import java.util.Objects;
+
 public class BookDTO {
-    private String title;
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(author, borrowedBy, id, isAvailable, rating, title);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BookDTO other = (BookDTO) obj;
+		return Objects.equals(author, other.author) && Objects.equals(borrowedBy, other.borrowedBy) && id == other.id
+				&& isAvailable == other.isAvailable
+				&& Double.doubleToLongBits(rating) == Double.doubleToLongBits(other.rating)
+				&& Objects.equals(title, other.title);
+	}
+
+	private String title;
     private String author;
     private int id;
     private double rating;

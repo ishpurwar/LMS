@@ -19,6 +19,13 @@ public class CollectionUtilTest {
     }
 
     @Test
+    void testFindBookByTitle_Exists() {
+        CollectionUtil.addBook(testBook);
+        BookDTO found = CollectionUtil.findBookByTitle("Test Book");
+        assertNotNull(found);
+        assertEquals(testBook, found);
+    }
+    @Test
     void testGetAllBooks_ReturnsNonEmptyList() {
         List<BookDTO> books = CollectionUtil.getAllBooks();
         assertNotNull(books);
@@ -67,13 +74,7 @@ public class CollectionUtilTest {
         assertFalse(CollectionUtil.isBookPresent("Test Book"));
     }
 
-    @Test
-    void testFindBookByTitle_Exists() {
-        CollectionUtil.addBook(testBook);
-        BookDTO found = CollectionUtil.findBookByTitle("Test Book");
-        assertNotNull(found);
-        assertEquals(testBook, found);
-    }
+
 
     @Test
     void testFindBookByTitle_NotExists() {
