@@ -7,3 +7,5 @@ public class BookNotFoundException extends Exception {
 	}
 
 }
+
+//Thrown when Book is not Found.
