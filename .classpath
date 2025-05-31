@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/classes" path="src/main/java">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
+	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="optional" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="ignore_optional_problems" value="true"/>
+			<attribute name="m2e-apt" value="true"/>
 			<attribute name="test" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="test" value="true"/>
-			<attribute name="optional" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="target/generated-sources/annotations">
@@ -44,13 +18,128 @@
 			<attribute name="m2e-apt" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="ignore_optional_problems" value="true"/>
-			<attribute name="m2e-apt" value="true"/>
 			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.1/junit-jupiter-engine-5.9.1.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="junit-jupiter-engine"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="5.9.1"/>
+			<attribute name="maven.groupId" value="org.junit.jupiter"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/junit/platform/junit-platform-engine/1.9.1/junit-platform-engine-1.9.1.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="junit-platform-engine"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="1.9.1"/>
+			<attribute name="maven.groupId" value="org.junit.platform"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="apiguardian-api"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="1.1.2"/>
+			<attribute name="maven.groupId" value="org.apiguardian"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/mockito/mockito-core/5.2.0/mockito-core-5.2.0.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="mockito-core"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="5.2.0"/>
+			<attribute name="maven.groupId" value="org.mockito"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/net/bytebuddy/byte-buddy/1.14.1/byte-buddy-1.14.1.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="byte-buddy"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="1.14.1"/>
+			<attribute name="maven.groupId" value="net.bytebuddy"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.1/byte-buddy-agent-1.14.1.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="byte-buddy-agent"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="1.14.1"/>
+			<attribute name="maven.groupId" value="net.bytebuddy"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="objenesis"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="3.3"/>
+			<attribute name="maven.groupId" value="org.objenesis"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.3/junit-jupiter-params-5.9.3.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="junit-jupiter-params"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="5.9.3"/>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/aarya/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.9.3/junit-jupiter-params-5.9.3-javadoc.jar!/"/>
+			<attribute name="maven.groupId" value="org.junit.jupiter"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.9.1/junit-jupiter-api-5.9.1.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="junit-jupiter-api"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="5.9.1"/>
+			<attribute name="maven.groupId" value="org.junit.jupiter"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="opentest4j"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="1.2.0"/>
+			<attribute name="maven.groupId" value="org.opentest4j"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="c:/Users/aarya/.m2/repository/org/junit/platform/junit-platform-commons/1.9.1/junit-platform-commons-1.9.1.jar">
+		<attributes>
+			<attribute name="maven.artifactId" value="junit-platform-commons"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+			<attribute name="maven.scope" value="test"/>
+			<attribute name="maven.version" value="1.9.1"/>
+			<attribute name="maven.groupId" value="org.junit.platform"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

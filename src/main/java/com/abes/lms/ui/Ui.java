@@ -1,5 +1,8 @@
 package com.abes.lms.ui;
 
+import java.util.List;
+import java.util.Scanner;
+
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
 import com.abes.lms.exception.BookNotFoundException;
@@ -7,8 +10,6 @@ import com.abes.lms.exception.InputValidationException;
 import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.service.LibrarianService;
 import com.abes.lms.service.UserService;
-import java.util.List;
-import java.util.Scanner;
 
 public class Ui {
 	private Scanner scanner;
@@ -64,7 +65,7 @@ public class Ui {
 		}
 	}
 
-	private void userRegistration() {
+	void userRegistration() {
 		System.out.println("\n--- USER REGISTRATION ---");
 		System.out.print("Enter username: ");
 		String name = scanner.nextLine();
@@ -162,6 +163,13 @@ public class Ui {
 			}
 		}
 	}
+	public static Integer parseMenuChoice(String input) {
+    try {
+        return Integer.parseInt(input.trim());
+    } catch (NumberFormatException e) {
+        return null;
+    }
+}
 
 	private void librarianMenu() {
 		while (true) {
@@ -281,6 +289,10 @@ public class Ui {
 			System.out.println("\n--- MY PROFILE ---");
 			System.out.println("Username: " + user.getName());
 			System.out.println("Borrowed Books: " + user.getBorrowedBooks().size());
+			if(user == null) {
+				System.out.println("User not found.");
+				return;
+			}
 			if (!user.getBorrowedBooks().isEmpty()) {
 				System.out.println("Books borrowed:");
 				user.getBorrowedBooks().forEach(book -> System.out.println("  - " + book.getTitle()));
@@ -348,4 +360,6 @@ public class Ui {
 			});
 		}
 	}
+
+	
 }
