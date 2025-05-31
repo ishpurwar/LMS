@@ -3,6 +3,12 @@ package com.abes.lms.ui;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * UI class for Library Management System (LMS)
+ * Handles user interaction through the console, including
+ * user registration/login, librarian login, and respective menus.
+ */
+
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
 import com.abes.lms.exception.BookAlreadyBorrowException;
@@ -13,6 +19,8 @@ import com.abes.lms.exception.UserAlreadyExistException;
 import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.service.LibrarianService;
 import com.abes.lms.service.UserService;
+
+/** Constructor initializes scanner and service layers. */
 
 public class Ui {
 	private Scanner scanner;
@@ -26,6 +34,10 @@ public class Ui {
 		this.librarianService = new LibrarianService();
 	}
 
+	/** 
+	 * Entry point method to start the LMS application.
+	 */
+
 	public static void starter() {
 		System.out.println("===========================================");
 		System.out.println("  Welcome to the Library Management System");
@@ -34,6 +46,10 @@ public class Ui {
 		Ui ui = new Ui();
 		ui.mainMenu();
 	}
+
+	/**
+	 * Displays the main menu and routes user to registration/login flows.
+	 */
 
 	private void mainMenu() {
 		while (true) {
@@ -68,6 +84,10 @@ public class Ui {
 		}
 	}
 
+	/**
+	 * Handles user registration with input validation and error handling.
+	 */
+
 	void userRegistration() {
 		System.out.println("\n--- USER REGISTRATION ---");
 		System.out.print("Enter username: ");
@@ -89,6 +109,10 @@ public class Ui {
 		}
 	}
 
+	/**
+	 * Handles user login, sets current user on success.
+	 */
+
 	private void userLogin() {
 		System.out.println("\n--- USER LOGIN ---");
 		System.out.print("Enter username: ");
@@ -105,6 +129,10 @@ public class Ui {
 		}
 	}
 
+	/**
+	 * Handles librarian login and navigates to librarian menu on success.
+	 */
+
 	private void librarianLogin() {
 		System.out.println("\n--- LIBRARIAN LOGIN ---");
 		System.out.print("Enter username: ");
@@ -119,6 +147,10 @@ public class Ui {
 			System.out.println("Invalid credentials. Please try again.");
 		}
 	}
+
+	/**
+	 * Displays user-specific menu and routes to user operations.
+	 */
 
 	private void userMenu() {
 		while (true) {
@@ -180,6 +212,10 @@ public class Ui {
     }
 }
 
+ 	/**
+	 * Displays librarian-specific menu and routes to admin operations.
+	 */
+
 	private void librarianMenu() {
 		while (true) {
 			System.out.println("\n--- LIBRARIAN MENU ---");
@@ -221,6 +257,8 @@ public class Ui {
 	}
 
 	// User Operations
+
+	/** Displays a list of all available books. */
 	private void showAllBooks() {
 		List<BookDTO> books = userService.showAllBooks();
 		System.out.println("\n--- ALL BOOKS ---");
@@ -231,6 +269,7 @@ public class Ui {
 		}
 	}
 
+	/** Allows the current user to borrow a book by title. */
 	private void borrowBook() {
 		System.out.print("Enter book title to borrow: ");
 		String title = scanner.nextLine();
@@ -243,6 +282,7 @@ public class Ui {
 		}
 	}
 
+	/** Allows the current user to return a borrowed book. */
 	private void returnBook() {
 		System.out.print("Enter book title to return: ");
 		String title = scanner.nextLine();
@@ -255,6 +295,7 @@ public class Ui {
 		}
 	}
 
+	/** Lets the current user update their profile. */
 	private void editProfile() {
 		System.out.println("--- EDIT PROFILE ---");
 		System.out.print("Enter new username (press Enter to skip): ");
@@ -274,24 +315,28 @@ public class Ui {
 		}
 	}
 
+	/** Sorts and displays books by ID. */
 	private void sortBooksById() {
 		List<BookDTO> books = userService.sortBooksById();
 		System.out.println("\n--- BOOKS SORTED BY ID ---");
 		books.forEach(System.out::println);
 	}
 
+	/** Sorts and displays books by rating. */
 	private void sortBooksByRating() {
 		List<BookDTO> books = userService.sortBooksByRating();
 		System.out.println("\n--- BOOKS SORTED BY RATING ---");
 		books.forEach(System.out::println);
 	}
 
+	/** Sorts and displays books by title. */
 	private void sortBooksByTitle() {
 		List<BookDTO> books = userService.sortBooksByTitle();
 		System.out.println("\n--- BOOKS SORTED BY TITLE ---");
 		books.forEach(System.out::println);
 	}
 
+	/** Displays profile info of the current user. */
 	private void viewProfile() {
 		try {
 			UserDto user = userService.getUserDetails(currentUser);
@@ -312,6 +357,8 @@ public class Ui {
 	}
 
 	// Librarian Operations
+
+	/** Adds a new book to the library collection. */
 	private void addBook() {
 		System.out.println("--- ADD BOOK ---");
 		System.out.print("Enter book title: ");
@@ -336,6 +383,7 @@ public class Ui {
 		}
 	}
 
+	/** Removes a book from the library by title. */
 	private void removeBook() {
 		System.out.print("Enter book title to remove: ");
 		String title = scanner.nextLine();
@@ -348,6 +396,7 @@ public class Ui {
 		}
 	}
 
+	/** Checks if a book is present in the library. */
 	private void checkBookPresent() {
 		System.out.print("Enter book title to check: ");
 		String title = scanner.nextLine();
@@ -359,6 +408,7 @@ public class Ui {
 		}
 	}
 
+	/** Displays all registered users along with borrowed books. */
 	private void showAllUsers() {
 		List<UserDto> users = librarianService.showAllUsers();
 		System.out.println("\n--- ALL USERS ---");
