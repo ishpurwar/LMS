@@ -10,5 +10,4 @@ public class BookAlreadyBorrowException extends Exception {
         super(message, cause);
     }
 
-    
 }
