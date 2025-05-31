@@ -23,9 +23,6 @@ public class UserDto {
 
     /**
      * Parameterized constructor to create a user with specified name and password.
-     *
-     * @param name     Name of the user
-     * @param password Password of the user
      */
     public UserDto(String name, String password) {
         this.name = name;
@@ -35,28 +32,27 @@ public class UserDto {
 
     // Getters and Setters
 
-    /** @return the name of the user */
+    /*the name of the user */
     public String getName() { return name; }
 
-    /** @param name sets the name of the user */
+    /* sets the name of the user */
     public void setName(String name) { this.name = name; }
 
-    /** @return the password of the user */
+    /* the password of the user */
     public String getPassword() { return password; }
 
-    /** @param password sets the password of the user */
+    /* sets the password of the user */
     public void setPassword(String password) { this.password = password; }
 
-    /** @return the list of books borrowed by the user */
+    /* the list of books borrowed by the user */
     public List<BookDTO> getBorrowedBooks() { return borrowedBooks; }
 
-    /** @param borrowedBooks sets the list of borrowed books */
+    /* sets the list of borrowed books */
     public void setBorrowedBooks(List<BookDTO> borrowedBooks) { this.borrowedBooks = borrowedBooks; }
 
     /**
      * Adds a book to the list of borrowed books.
-     *
-     * @param book the BookDTO to be added
+      the BookDTO to be added
      */
     public void addBorrowedBook(BookDTO book) {
         this.borrowedBooks.add(book);
@@ -64,8 +60,7 @@ public class UserDto {
 
     /**
      * Removes a book from the list of borrowed books.
-     *
-     * @param book the BookDTO to be removed
+        the BookDTO to be removed
      */
     public void removeBorrowedBook(BookDTO book) {
         this.borrowedBooks.remove(book);
@@ -73,8 +68,7 @@ public class UserDto {
 
     /**
      * Generates a human-readable string representation of the user and borrowed book count.
-     *
-     * @return a formatted string with user details
+      a formatted string with user details
      */
     @Override
     public String toString() {
@@ -83,9 +77,7 @@ public class UserDto {
 
     /**
      * Compares this UserDto with another object for equality based on fields.
-     *
-     * @param obj the object to compare with
-     * @return true if name, password, and borrowed books are equal; false otherwise
+      true if name, password, and borrowed books are equal; false otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -101,8 +93,7 @@ public class UserDto {
 
     /**
      * Generates a hash code for the UserDto based on its fields.
-     *
-     * @return hash code value
+      hash code value
      */
     @Override
     public int hashCode() {

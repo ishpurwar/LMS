@@ -17,7 +17,7 @@ public class BookDaoImpl implements BookDao {
     /**
      * Retrieves the list of all books.
      *
-     * @return List of BookDTO objects
+    
      */
     @Override
     public List<BookDTO> getAllBooks() {
@@ -27,7 +27,7 @@ public class BookDaoImpl implements BookDao {
     /**
      * Adds a new book to the collection.
      *
-     * @param book The BookDTO object to add
+     
      */
     @Override
     public void addBook(BookDTO book) {
@@ -37,9 +37,7 @@ public class BookDaoImpl implements BookDao {
     /**
      * Removes a book from the collection by its title.
      *
-     * @param title The title of the book to remove
-     * @return true if the book was removed successfully
-     * @throws BookNotFoundException if the book is not found
+     
      */
     @Override
     public boolean removeBook(String title) throws BookNotFoundException {
@@ -52,9 +50,7 @@ public class BookDaoImpl implements BookDao {
     /**
      * Finds and returns a book by its title.
      *
-     * @param title The title of the book
-     * @return The matching BookDTO object
-     * @throws BookNotFoundException if the book is not found
+     
      */
     @Override
     public BookDTO findBookByTitle(String title) throws BookNotFoundException {
@@ -68,9 +64,6 @@ public class BookDaoImpl implements BookDao {
     /**
      * Finds and returns a book by its ID.
      *
-     * @param id The ID of the book
-     * @return The matching BookDTO object
-     * @throws BookNotFoundException if the book is not found
      */
     @Override
     public BookDTO findBookById(int id) throws BookNotFoundException {
@@ -89,10 +82,10 @@ public class BookDaoImpl implements BookDao {
         return CollectionUtil.isBookPresent(title);
     }
 
-    /**
+    /*
      * Returns a list of books sorted by rating in descending order.
-     *
-     * @return List of BookDTO objects sorted by rating
+     
+    
      */
     @Override
     public List<BookDTO> sortBooksByRating() {
@@ -104,7 +97,7 @@ public class BookDaoImpl implements BookDao {
     /**
      * Returns a list of books sorted by ID in ascending order.
      *
-     * @return List of BookDTO objects sorted by ID
+     
      */
     @Override
     public List<BookDTO> sortBooksById() {
@@ -113,10 +106,8 @@ public class BookDaoImpl implements BookDao {
                 .collect(Collectors.toList());
     }
 
-    /**
+    /*
      * Returns a list of books sorted by title alphabetically.
-     *
-     * @return List of BookDTO objects sorted by title
      */
     @Override
     public List<BookDTO> sortBooksByTitle() {
