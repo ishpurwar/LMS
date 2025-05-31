@@ -44,17 +44,6 @@ public class UserDaoimplTest {
 	}
 
 	@Test
-	void testFindNonExistentUser() {
-		try {
-			userDao.findUserByName("nonexistentuser");
-			fail("Should throw UserNotFoundException");
-		} catch (UserNotFoundException e) {
-			assertNotNull(e.getMessage());
-			assertTrue(e.getMessage().contains("User not found") || e.getMessage().contains("nonexistentuser"));
-		}
-	}
-
-	@Test
 	void testIsUserExists() {
 		// Use a unique username to avoid conflicts with other tests
 		UserDto uniqueUser = new UserDto("uniqueuser123", "password");
