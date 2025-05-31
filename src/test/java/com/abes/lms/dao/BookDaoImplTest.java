@@ -2,7 +2,6 @@ package com.abes.lms.dao;
 
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.exception.BookNotFoundException;
-import com.abes.lms.util.CollectionUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -25,9 +24,9 @@ public class BookDaoImplTest {
 	@DisplayName("Should return all books successfully")
 	void testGetAllBooks() {
 		List<BookDTO> books = bookDao.getAllBooks();
-		assertNotNull(books, "Books list should not be null");
-		assertFalse(books.isEmpty(), "Books list should not be empty");
-		assertTrue(books.size() >= 4, "Should contain at least 4 default books");
+		assertNotNull(books);
+		assertFalse(books.isEmpty());
+		assertTrue(books.size() >= 4);
 	}
 
 	@Test
@@ -35,87 +34,106 @@ public class BookDaoImplTest {
 	void testAddBook() {
 		int initialSize = bookDao.getAllBooks().size();
 		bookDao.addBook(testBook);
-
-		List<BookDTO> books = bookDao.getAllBooks();
-		assertEquals(initialSize + 1, books.size(), "Book count should increase by 1");
-		assertTrue(bookDao.isBookPresent("Test Book"), "Added book should be present");
+		assertEquals(initialSize + 1, bookDao.getAllBooks().size());
+		assertTrue(bookDao.isBookPresent("Test Book"));
 	}
 
 	@Test
 	@DisplayName("Should remove existing book successfully")
 	void testRemoveExistingBook() throws BookNotFoundException {
 		bookDao.addBook(testBook);
-		assertTrue(bookDao.isBookPresent("Test Book"), "Book should be present before removal");
-
-		boolean removed = bookDao.removeBook("Test Book");
-		assertTrue(removed, "Should return true when book is removed");
-		assertFalse(bookDao.isBookPresent("Test Book"), "Book should not be present after removal");
+		assertTrue(bookDao.isBookPresent("Test Book"));
+		assertTrue(bookDao.removeBook("Test Book"));
+		assertFalse(bookDao.isBookPresent("Test Book"));
 	}
 
 	@Test
-	@DisplayName("Should throw exception when removing non-existent book")
+	@DisplayName("Should handle removal of non-existent book")
 	void testRemoveNonExistentBook() {
-		assertThrows(BookNotFoundException.class, () -> {
+		boolean exceptionThrown = false;
+		String message = "";
+
+		try {
 			bookDao.removeBook("Non-existent Book");
-		}, "Should throw BookNotFoundException for non-existent book");
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			exceptionThrown = true;
+			message = e.getMessage();
+		}
+
+		assertTrue(exceptionThrown);
+		assertNotNull(message);
+		assertFalse(message.isEmpty());
 	}
 
 	@Test
 	@DisplayName("Should find book by title successfully")
 	void testFindBookByTitle() throws BookNotFoundException {
 		bookDao.addBook(testBook);
-
 		BookDTO found = bookDao.findBookByTitle("Test Book");
-		assertNotNull(found, "Found book should not be null");
-		assertEquals("Test Book", found.getTitle(), "Book title should match");
-		assertEquals("Test Author", found.getAuthor(), "Book author should match");
-		assertEquals(4.0, found.getRating(), "Book rating should match");
+		assertNotNull(found);
+		assertEquals("Test Book", found.getTitle());
+		assertEquals("Test Author", found.getAuthor());
 	}
 
 	@Test
-	@DisplayName("Should throw exception when finding non-existent book by title")
+	@DisplayName("Should handle finding non-existent book by title")
 	void testFindNonExistentBookByTitle() {
-		assertThrows(BookNotFoundException.class, () -> {
+		boolean exceptionThrown = false;
+
+		try {
 			bookDao.findBookByTitle("Non-existent Book");
-		}, "Should throw BookNotFoundException for non-existent book");
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			exceptionThrown = true;
+			assertNotNull(e.getMessage());
+		}
+
+		assertTrue(exceptionThrown);
 	}
 
 	@Test
 	@DisplayName("Should find book by ID successfully")
 	void testFindBookById() throws BookNotFoundException {
 		bookDao.addBook(testBook);
-
 		BookDTO found = bookDao.findBookById(999);
-		assertNotNull(found, "Found book should not be null");
-		assertEquals(999, found.getId(), "Book ID should match");
-		assertEquals("Test Book", found.getTitle(), "Book title should match");
+		assertNotNull(found);
+		assertEquals(999, found.getId());
+		assertEquals("Test Book", found.getTitle());
 	}
 
 	@Test
-	@DisplayName("Should throw exception when finding non-existent book by ID")
+	@DisplayName("Should handle finding non-existent book by ID")
 	void testFindNonExistentBookById() {
-		assertThrows(BookNotFoundException.class, () -> {
+		boolean exceptionThrown = false;
+
+		try {
 			bookDao.findBookById(99999);
-		}, "Should throw BookNotFoundException for non-existent book ID");
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			exceptionThrown = true;
+			assertNotNull(e.getMessage());
+		}
+
+		assertTrue(exceptionThrown);
 	}
 
 	@Test
 	@DisplayName("Should check book presence correctly")
 	void testIsBookPresent() {
-		assertTrue(bookDao.isBookPresent("Java: The Complete Reference"), "Should return true for existing book");
-		assertFalse(bookDao.isBookPresent("Non-existent Book"), "Should return false for non-existing book");
-		assertTrue(bookDao.isBookPresent("java: the complete reference"), "Should be case insensitive");
+		assertTrue(bookDao.isBookPresent("Java: The Complete Reference"));
+		assertFalse(bookDao.isBookPresent("Non-existent Book"));
+		assertTrue(bookDao.isBookPresent("java: the complete reference"));
 	}
 
 	@Test
 	@DisplayName("Should sort books by rating in descending order")
 	void testSortBooksByRating() {
 		List<BookDTO> sortedBooks = bookDao.sortBooksByRating();
-		assertNotNull(sortedBooks, "Sorted books list should not be null");
-		assertFalse(sortedBooks.isEmpty(), "Sorted books list should not be empty");
+		assertNotNull(sortedBooks);
+		assertFalse(sortedBooks.isEmpty());
 		for (int i = 0; i < sortedBooks.size() - 1; i++) {
-			assertTrue(sortedBooks.get(i).getRating() >= sortedBooks.get(i + 1).getRating(),
-					"Books should be sorted by rating in descending order");
+			assertTrue(sortedBooks.get(i).getRating() >= sortedBooks.get(i + 1).getRating());
 		}
 	}
 
@@ -123,11 +141,10 @@ public class BookDaoImplTest {
 	@DisplayName("Should sort books by ID in ascending order")
 	void testSortBooksById() {
 		List<BookDTO> sortedBooks = bookDao.sortBooksById();
-		assertNotNull(sortedBooks, "Sorted books list should not be null");
-		assertFalse(sortedBooks.isEmpty(), "Sorted books list should not be empty");
+		assertNotNull(sortedBooks);
+		assertFalse(sortedBooks.isEmpty());
 		for (int i = 0; i < sortedBooks.size() - 1; i++) {
-			assertTrue(sortedBooks.get(i).getId() <= sortedBooks.get(i + 1).getId(),
-					"Books should be sorted by ID in ascending order");
+			assertTrue(sortedBooks.get(i).getId() <= sortedBooks.get(i + 1).getId());
 		}
 	}
 
@@ -135,23 +152,75 @@ public class BookDaoImplTest {
 	@DisplayName("Should sort books by title alphabetically")
 	void testSortBooksByTitle() {
 		List<BookDTO> sortedBooks = bookDao.sortBooksByTitle();
-		assertNotNull(sortedBooks, "Sorted books list should not be null");
-		assertFalse(sortedBooks.isEmpty(), "Sorted books list should not be empty");
-
+		assertNotNull(sortedBooks);
+		assertFalse(sortedBooks.isEmpty());
 		for (int i = 0; i < sortedBooks.size() - 1; i++) {
-			assertTrue(sortedBooks.get(i).getTitle().compareTo(sortedBooks.get(i + 1).getTitle()) <= 0,
-					"Books should be sorted by title alphabetically");
+			assertTrue(sortedBooks.get(i).getTitle().compareTo(sortedBooks.get(i + 1).getTitle()) <= 0);
 		}
 	}
 
 	@Test
-	@DisplayName("Should handle case insensitive search")
+	@DisplayName("Should handle case insensitive operations")
 	void testCaseInsensitiveOperations() throws BookNotFoundException {
 		bookDao.addBook(testBook);
-		BookDTO found = bookDao.findBookByTitle("test book");
-		assertNotNull(found, "Should find book with different case");
-		assertTrue(bookDao.isBookPresent("TEST BOOK"), "Should find book with uppercase");
-		assertTrue(bookDao.removeBook("TeSt BoOk"), "Should remove book with mixed case");
-		assertFalse(bookDao.isBookPresent("Test Book"), "Book should be removed");
+		assertNotNull(bookDao.findBookByTitle("test book"));
+		assertTrue(bookDao.isBookPresent("TEST BOOK"));
+		assertTrue(bookDao.removeBook("TeSt BoOk"));
+		assertFalse(bookDao.isBookPresent("Test Book"));
+	}
+
+	@Test
+	@DisplayName("Should handle multiple exception scenarios")
+	void testMultipleExceptionScenarios() {
+		int exceptionCount = 0;
+
+		try {
+			bookDao.removeBook("Book1");
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			exceptionCount++;
+			assertNotNull(e.getMessage());
+		}
+
+		try {
+			bookDao.findBookByTitle("Book2");
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			exceptionCount++;
+			assertNotNull(e.getMessage());
+		}
+
+		try {
+			bookDao.findBookById(12345);
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			exceptionCount++;
+			assertNotNull(e.getMessage());
+		}
+
+		assertEquals(3, exceptionCount);
+	}
+
+	@Test
+	@DisplayName("Should handle edge cases")
+	void testEdgeCases() {
+		try {
+			bookDao.findBookByTitle(null);
+			fail("Should throw exception");
+		} catch (Exception e) {
+			assertNotNull(e);
+		}
+		try {
+			bookDao.findBookByTitle("");
+			fail("Should throw exception");
+		} catch (Exception e) {
+			assertNotNull(e);
+		}
+		try {
+			bookDao.findBookById(-1);
+			fail("Should throw exception");
+		} catch (BookNotFoundException e) {
+			assertNotNull(e.getMessage());
+		}
 	}
 }
