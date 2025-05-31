@@ -5,8 +5,11 @@ import java.util.Scanner;
 
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookAlreadyBorrowException;
+import com.abes.lms.exception.BookAlreadyExistException;
 import com.abes.lms.exception.BookNotFoundException;
 import com.abes.lms.exception.InputValidationException;
+import com.abes.lms.exception.UserAlreadyExistException;
 import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.service.LibrarianService;
 import com.abes.lms.service.UserService;
@@ -77,6 +80,12 @@ public class Ui {
 			System.out.println("Registration successful!");
 		} catch (InputValidationException e) {
 			System.out.println("Registration failed: " + e.getMessage());
+		}
+		catch (UserAlreadyExistException e){
+			System.out.println("Registration failed: " + e.getMessage());
+		}
+		catch (Exception e) {
+			System.out.println("An unexpected error occurred: " + e.getMessage());
 		}
 	}
 
@@ -229,7 +238,7 @@ public class Ui {
 		try {
 			userService.borrowBook(currentUser, title);
 			System.out.println("Book borrowed successfully!");
-		} catch (BookNotFoundException | UserNotFoundException | InputValidationException e) {
+		} catch (BookNotFoundException | UserNotFoundException | InputValidationException | BookAlreadyBorrowException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
@@ -241,7 +250,7 @@ public class Ui {
 		try {
 			userService.returnBook(currentUser, title);
 			System.out.println("Book returned successfully!");
-		} catch (BookNotFoundException | UserNotFoundException | InputValidationException e) {
+		} catch (BookNotFoundException | UserNotFoundException | InputValidationException | BookAlreadyExistException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
@@ -260,7 +269,7 @@ public class Ui {
 				currentUser = newName;
 			}
 			System.out.println("Profile updated successfully!");
-		} catch (UserNotFoundException | InputValidationException e) {
+		} catch (UserNotFoundException | InputValidationException | UserAlreadyExistException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
@@ -319,6 +328,11 @@ public class Ui {
 			System.out.println("Invalid rating format. Please enter a decimal number.");
 		} catch (InputValidationException e) {
 			System.out.println("Error: " + e.getMessage());
+		}
+		catch (BookAlreadyExistException e) {
+			System.out.println("Error: " + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("An unexpected error occurred: " + e.getMessage());
 		}
 	}
 

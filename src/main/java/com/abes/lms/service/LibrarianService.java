@@ -6,6 +6,7 @@ import com.abes.lms.dao.UserDao;
 import com.abes.lms.dao.UserDaoImpl;
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookAlreadyExistException;
 import com.abes.lms.exception.BookNotFoundException;
 import com.abes.lms.exception.InputValidationException;
 import com.abes.lms.util.CollectionUtil;
@@ -26,13 +27,14 @@ public class LibrarianService {
                 CollectionUtil.LIBRARIAN_PASSWORD.equals(password);
     }
 
-    public void addBook(String title, String author, double rating) throws InputValidationException {
+    public void addBook(String title, String author, double rating) throws InputValidationException,
+            BookAlreadyExistException {
         InputValidator.validateBookTitle(title);
         InputValidator.validateAuthor(author);
         InputValidator.validateRating(rating);
 
         if (bookDao.isBookPresent(title)) {
-            throw new InputValidationException("Book with title '" + title + "' already exists");
+            throw new BookAlreadyExistException("Book with title '" + title + "' already exists");
         }
 
         int id = CollectionUtil.getNextBookId();
