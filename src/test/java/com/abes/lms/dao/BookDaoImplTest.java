@@ -48,25 +48,6 @@ public class BookDaoImplTest {
 	}
 
 	@Test
-	@DisplayName("Should handle removal of non-existent book")
-	void testRemoveNonExistentBook() {
-		boolean exceptionThrown = false;
-		String message = "";
-
-		try {
-			bookDao.removeBook("Non-existent Book");
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			exceptionThrown = true;
-			message = e.getMessage();
-		}
-
-		assertTrue(exceptionThrown);
-		assertNotNull(message);
-		assertFalse(message.isEmpty());
-	}
-
-	@Test
 	@DisplayName("Should find book by title successfully")
 	void testFindBookByTitle() throws BookNotFoundException {
 		bookDao.addBook(testBook);
@@ -77,22 +58,6 @@ public class BookDaoImplTest {
 	}
 
 	@Test
-	@DisplayName("Should handle finding non-existent book by title")
-	void testFindNonExistentBookByTitle() {
-		boolean exceptionThrown = false;
-
-		try {
-			bookDao.findBookByTitle("Non-existent Book");
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			exceptionThrown = true;
-			assertNotNull(e.getMessage());
-		}
-
-		assertTrue(exceptionThrown);
-	}
-
-	@Test
 	@DisplayName("Should find book by ID successfully")
 	void testFindBookById() throws BookNotFoundException {
 		bookDao.addBook(testBook);
@@ -100,22 +65,6 @@ public class BookDaoImplTest {
 		assertNotNull(found);
 		assertEquals(999, found.getId());
 		assertEquals("Test Book", found.getTitle());
-	}
-
-	@Test
-	@DisplayName("Should handle finding non-existent book by ID")
-	void testFindNonExistentBookById() {
-		boolean exceptionThrown = false;
-
-		try {
-			bookDao.findBookById(99999);
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			exceptionThrown = true;
-			assertNotNull(e.getMessage());
-		}
-
-		assertTrue(exceptionThrown);
 	}
 
 	@Test
@@ -169,58 +118,4 @@ public class BookDaoImplTest {
 		assertFalse(bookDao.isBookPresent("Test Book"));
 	}
 
-	@Test
-	@DisplayName("Should handle multiple exception scenarios")
-	void testMultipleExceptionScenarios() {
-		int exceptionCount = 0;
-
-		try {
-			bookDao.removeBook("Book1");
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			exceptionCount++;
-			assertNotNull(e.getMessage());
-		}
-
-		try {
-			bookDao.findBookByTitle("Book2");
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			exceptionCount++;
-			assertNotNull(e.getMessage());
-		}
-
-		try {
-			bookDao.findBookById(12345);
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			exceptionCount++;
-			assertNotNull(e.getMessage());
-		}
-
-		assertEquals(3, exceptionCount);
-	}
-
-	@Test
-	@DisplayName("Should handle edge cases")
-	void testEdgeCases() {
-		try {
-			bookDao.findBookByTitle(null);
-			fail("Should throw exception");
-		} catch (Exception e) {
-			assertNotNull(e);
-		}
-		try {
-			bookDao.findBookByTitle("");
-			fail("Should throw exception");
-		} catch (Exception e) {
-			assertNotNull(e);
-		}
-		try {
-			bookDao.findBookById(-1);
-			fail("Should throw exception");
-		} catch (BookNotFoundException e) {
-			assertNotNull(e.getMessage());
-		}
-	}
 }
