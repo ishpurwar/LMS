@@ -17,7 +17,6 @@ public class BookDaoImpl implements BookDao {
     /**
      * Retrieves the list of all books.
      *
-    
      */
     @Override
     public List<BookDTO> getAllBooks() {
@@ -27,7 +26,6 @@ public class BookDaoImpl implements BookDao {
     /**
      * Adds a new book to the collection.
      *
-     
      */
     @Override
     public void addBook(BookDTO book) {
@@ -37,7 +35,6 @@ public class BookDaoImpl implements BookDao {
     /**
      * Removes a book from the collection by its title.
      *
-     
      */
     @Override
     public boolean removeBook(String title) throws BookNotFoundException {
@@ -50,7 +47,6 @@ public class BookDaoImpl implements BookDao {
     /**
      * Finds and returns a book by its title.
      *
-     
      */
     @Override
     public BookDTO findBookByTitle(String title) throws BookNotFoundException {
@@ -84,8 +80,6 @@ public class BookDaoImpl implements BookDao {
 
     /*
      * Returns a list of books sorted by rating in descending order.
-     
-    
      */
     @Override
     public List<BookDTO> sortBooksByRating() {
@@ -97,7 +91,6 @@ public class BookDaoImpl implements BookDao {
     /**
      * Returns a list of books sorted by ID in ascending order.
      *
-     
      */
     @Override
     public List<BookDTO> sortBooksById() {

@@ -15,6 +15,13 @@ import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.util.InputValidator;
 import java.util.List;
 
+/**
+ * Service layer for user-related operations in the Library Management System.
+ * Provides methods for registration, login, borrowing/returning books,
+ * editing user details, sorting books, and retrieving user profiles.
+ */
+
+//Constructor initializes DAO implementations.
 public class UserService {
     private BookDao bookDao;
     private UserDao userDao;

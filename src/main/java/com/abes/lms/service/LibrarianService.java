@@ -13,6 +13,12 @@ import com.abes.lms.util.CollectionUtil;
 import com.abes.lms.util.InputValidator;
 import java.util.List;
 
+/**
+ * Service layer for librarian-related operations.
+ * Provides methods to authenticate librarian, manage books, and view users.
+ */
+
+//Constructor initializes DAO implementations for book and user data.
 public class LibrarianService {
     private BookDao bookDao;
     private UserDao userDao;

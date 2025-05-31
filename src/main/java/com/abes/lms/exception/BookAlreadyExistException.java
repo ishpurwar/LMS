@@ -11,3 +11,5 @@ public class BookAlreadyExistException extends Exception {
     }
     
 }
+
+// Thrown if book already exists and Librarian tries to add it book again.

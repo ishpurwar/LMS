@@ -11,6 +11,7 @@ public class CollectionUtil {
     private static List<BookDTO> books = new ArrayList<>();
     private static List<UserDto> users = new ArrayList<>();
 
+    //Librarian Credentials
     public static final String LIBRARIAN_USERNAME = "admin";
     public static final String LIBRARIAN_PASSWORD = "admin123";
 

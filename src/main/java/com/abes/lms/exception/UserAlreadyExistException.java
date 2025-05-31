@@ -10,3 +10,5 @@ public class UserAlreadyExistException extends Exception {
         super(message, cause);
     }
 }
+
+//Thrown when user tries to register already existing user.
