@@ -55,7 +55,7 @@ public class CollectionUtil {
 
     // User-related static methods
     public static List<UserDto> getAllUsers() {
-        return new ArrayList<>(users);
+        return users;
     }
 
     public static void addUser(UserDto user) {
