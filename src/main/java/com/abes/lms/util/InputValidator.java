@@ -20,6 +20,9 @@ public class InputValidator {
         if (author.length() > 50) {
             throw new InputValidationException("Author name cannot exceed 50 characters");
         }
+        if (!author.matches(".*[a-zA-Z].*")) {
+            throw new InputValidationException("Author name cannot be a numerical value");
+        }
     }
 
     public static void validateRating(double rating) throws InputValidationException {
@@ -37,6 +40,9 @@ public class InputValidator {
         }
         if (name.length() > 30) {
             throw new InputValidationException("User name cannot exceed 30 characters");
+        }
+        if (!name.matches(".*[a-zA-Z].*")) {
+            throw new InputValidationException("User name cannot be a numerical value");
         }
     }
 
