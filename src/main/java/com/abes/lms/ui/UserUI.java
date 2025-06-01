@@ -26,7 +26,58 @@ public class UserUI {
         this.currentUser = currentUser;
     }
 
-    
+    public void userMenu() {
+        while (true) {
+            System.out.println("\n---- USER MENU ----");
+            System.out.println("1. Show All Books");
+            System.out.println("2. Borrow Book");
+            System.out.println("3. Return Book");
+            System.out.println("4. Edit Profile");
+            System.out.println("5. Sort Books by ID");
+            System.out.println("6. Sort Books by Rating");
+            System.out.println("7. Sort Books by Title");
+            System.out.println("8. View My Profile");
+            System.out.println("9. Logout");
+            System.out.print("Choose an option: ");
+
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                case 1:
+                    showAllBooks();
+                    break;
+                case 2:
+                    borrowBook();
+                    break;
+                case 3:
+                    returnBook();
+                    break;
+                case 4:
+                    editProfile();
+                    break;
+                case 5:
+                    sortBooksById();
+                    break;
+                case 6:
+                    sortBooksByRating();
+                    break;
+                case 7:
+                    sortBooksByTitle();
+                    break;
+                case 8:
+                    viewProfile();
+                    break;
+                case 9:
+                    currentUser = null;
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
 
     private void showAllBooks() {
         List<BookDTO> books = userService.showAllBooks();
