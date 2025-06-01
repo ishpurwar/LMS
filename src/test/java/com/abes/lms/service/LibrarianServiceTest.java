@@ -2,6 +2,7 @@ package com.abes.lms.service;
 
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookAlreadyExistException;
 import com.abes.lms.exception.BookNotFoundException;
 import com.abes.lms.exception.InputValidationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -104,7 +105,7 @@ public class LibrarianServiceTest {
 
     @Test
     @DisplayName("Should throw exception when adding duplicate book")
-    void testAddDuplicateBook() throws InputValidationException {
+    void testAddDuplicateBook() throws BookAlreadyExistException, InputValidationException {
         String title = "Duplicate Book";
         String author = "Author";
         double rating = 4.0;
@@ -113,7 +114,7 @@ public class LibrarianServiceTest {
         librarianService.addBook(title, author, rating);
 
         // Try to add same book again
-        assertThrows(InputValidationException.class, () -> {
+        assertThrows(BookAlreadyExistException.class, () -> {
             librarianService.addBook(title, author, rating);
         }, "Should throw InputValidationException for duplicate book");
     }
@@ -144,7 +145,7 @@ public class LibrarianServiceTest {
 
     @Test
     @DisplayName("Should check book presence correctly")
-    void testIsBookPresent() throws InputValidationException {
+    void testIsBookPresent() throws BookAlreadyExistException,InputValidationException {
         String title = "Presence Test Book";
         
         // Book should not be present initially
@@ -162,7 +163,7 @@ public class LibrarianServiceTest {
 
     @Test
     @DisplayName("Should show all books")
-    void testShowAllBooks() throws InputValidationException {
+    void testShowAllBooks() throws InputValidationException, BookAlreadyExistException {
         List<BookDTO> initialBooks = librarianService.showAllBooks();
         int initialCount = initialBooks.size();
         
@@ -188,7 +189,7 @@ public class LibrarianServiceTest {
 
     @Test
     @DisplayName("Should remove existing book successfully")
-    void testRemoveBookSuccess() throws InputValidationException, BookNotFoundException {
+    void testRemoveBookSuccess() throws InputValidationException, BookNotFoundException , BookAlreadyExistException {
         String title = "Remove Test Book";
         
         // Add book first
@@ -235,7 +236,7 @@ public class LibrarianServiceTest {
 
     @Test
     @DisplayName("Should maintain data consistency across operations")
-    void testDataConsistency() throws InputValidationException, BookNotFoundException {
+    void testDataConsistency() throws InputValidationException, BookNotFoundException, BookAlreadyExistException {
         String title1 = "Consistency Test 1";
         String title2 = "Consistency Test 2";
         

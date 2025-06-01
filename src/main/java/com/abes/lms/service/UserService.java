@@ -6,12 +6,22 @@ import com.abes.lms.dao.UserDao;
 import com.abes.lms.dao.UserDaoImpl;
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookAlreadyBorrowException;
+import com.abes.lms.exception.BookAlreadyExistException;
 import com.abes.lms.exception.BookNotFoundException;
 import com.abes.lms.exception.InputValidationException;
+import com.abes.lms.exception.UserAlreadyExistException;
 import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.util.InputValidator;
 import java.util.List;
 
+/**
+ * Service layer for user-related operations in the Library Management System.
+ * Provides methods for registration, login, borrowing/returning books,
+ * editing user details, sorting books, and retrieving user profiles.
+ */
+
+//Constructor initializes DAO implementations.
 public class UserService {
     private BookDao bookDao;
     private UserDao userDao;
@@ -21,12 +31,12 @@ public class UserService {
         this.userDao = new UserDaoImpl();
     }
 
-    public void registerUser(String name, String password) throws InputValidationException {
+    public void registerUser(String name, String password) throws InputValidationException, UserAlreadyExistException {
         InputValidator.validateUserName(name);
         InputValidator.validatePassword(password);
 
         if (userDao.isUserExists(name)) {
-            throw new InputValidationException("User '" + name + "' already exists");
+            throw new UserAlreadyExistException("User '" + name + "' already exists");
         }
 
         UserDto user = new UserDto(name, password);
@@ -41,12 +51,12 @@ public class UserService {
         return bookDao.getAllBooks();
     }
 
-    public void borrowBook(String userName, String bookTitle) throws BookNotFoundException, UserNotFoundException, InputValidationException {
+    public void borrowBook(String userName, String bookTitle) throws BookNotFoundException, UserNotFoundException, InputValidationException, BookAlreadyBorrowException {
         UserDto user = userDao.findUserByName(userName);
         BookDTO book = bookDao.findBookByTitle(bookTitle);
 
         if (!book.isAvailable()) {
-            throw new InputValidationException("Book '" + bookTitle + "' is already borrowed");
+            throw new BookAlreadyBorrowException("Book '" + bookTitle + "' is already borrowed");
         }
 
         book.setAvailable(false);
@@ -54,16 +64,16 @@ public class UserService {
         user.addBorrowedBook(book);
     }
 
-    public void returnBook(String userName, String bookTitle) throws BookNotFoundException, UserNotFoundException, InputValidationException {
+    public void returnBook(String userName, String bookTitle) throws BookNotFoundException, UserNotFoundException, InputValidationException, BookAlreadyExistException {
         UserDto user = userDao.findUserByName(userName);
         BookDTO book = bookDao.findBookByTitle(bookTitle);
 
         if (book.isAvailable()) {
-            throw new InputValidationException("Book '" + bookTitle + "' is not currently borrowed");
+            throw new BookAlreadyExistException("Book '" + bookTitle + "' is not currently borrowed");
         }
 
         if (!bookTitle.equals(book.getTitle()) || !userName.equals(book.getBorrowedBy())) {
-            throw new InputValidationException("You haven't borrowed this book");
+            throw new BookAlreadyExistException("You haven't borrowed this book");
         }
 
         book.setAvailable(true);
@@ -71,13 +81,13 @@ public class UserService {
         user.removeBorrowedBook(book);
     }
 
-    public void editUserDetails(String oldName, String newName, String newPassword) throws UserNotFoundException, InputValidationException {
+    public void editUserDetails(String oldName, String newName, String newPassword) throws UserNotFoundException, InputValidationException,UserAlreadyExistException {
         UserDto user = userDao.findUserByName(oldName);
         
         if (newName != null && !newName.trim().isEmpty()) {
             InputValidator.validateUserName(newName);
             if (!oldName.equals(newName) && userDao.isUserExists(newName)) {
-                throw new InputValidationException("User '" + newName + "' already exists");
+                throw new UserAlreadyExistException("User '" + newName + "' already exists");
             }
             user.setName(newName);
         }
