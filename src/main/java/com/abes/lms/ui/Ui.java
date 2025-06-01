@@ -1,14 +1,26 @@
 package com.abes.lms.ui;
 
+import java.util.List;
+import java.util.Scanner;
+
+/**
+ * UI class for Library Management System (LMS)
+ * Handles user interaction through the console, including
+ * user registration/login, librarian login, and respective menus.
+ */
+
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookAlreadyBorrowException;
+import com.abes.lms.exception.BookAlreadyExistException;
 import com.abes.lms.exception.BookNotFoundException;
 import com.abes.lms.exception.InputValidationException;
+import com.abes.lms.exception.UserAlreadyExistException;
 import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.service.LibrarianService;
 import com.abes.lms.service.UserService;
-import java.util.List;
-import java.util.Scanner;
+
+/** Constructor initializes scanner and service layers. */
 
 public class Ui {
 	private Scanner scanner;
@@ -22,6 +34,10 @@ public class Ui {
 		this.librarianService = new LibrarianService();
 	}
 
+	/** 
+	 * Entry point method to start the LMS application.
+	 */
+
 	public static void starter() {
 		System.out.println("===========================================");
 		System.out.println("  Welcome to the Library Management System");
@@ -30,6 +46,10 @@ public class Ui {
 		Ui ui = new Ui();
 		ui.mainMenu();
 	}
+
+	/**
+	 * Displays the main menu and routes user to registration/login flows.
+	 */
 
 	private void mainMenu() {
 		while (true) {
@@ -64,7 +84,11 @@ public class Ui {
 		}
 	}
 
-	private void userRegistration() {
+	/**
+	 * Handles user registration with input validation and error handling.
+	 */
+
+	void userRegistration() {
 		System.out.println("\n--- USER REGISTRATION ---");
 		System.out.print("Enter username: ");
 		String name = scanner.nextLine();
@@ -77,7 +101,17 @@ public class Ui {
 		} catch (InputValidationException e) {
 			System.out.println("Registration failed: " + e.getMessage());
 		}
+		catch (UserAlreadyExistException e){
+			System.out.println("Registration failed: " + e.getMessage());
+		}
+		catch (Exception e) {
+			System.out.println("An unexpected error occurred: " + e.getMessage());
+		}
 	}
+
+	/**
+	 * Handles user login, sets current user on success.
+	 */
 
 	private void userLogin() {
 		System.out.println("\n--- USER LOGIN ---");
@@ -95,6 +129,10 @@ public class Ui {
 		}
 	}
 
+	/**
+	 * Handles librarian login and navigates to librarian menu on success.
+	 */
+
 	private void librarianLogin() {
 		System.out.println("\n--- LIBRARIAN LOGIN ---");
 		System.out.print("Enter username: ");
@@ -109,6 +147,10 @@ public class Ui {
 			System.out.println("Invalid credentials. Please try again.");
 		}
 	}
+
+	/**
+	 * Displays user-specific menu and routes to user operations.
+	 */
 
 	private void userMenu() {
 		while (true) {
@@ -162,6 +204,17 @@ public class Ui {
 			}
 		}
 	}
+	public static Integer parseMenuChoice(String input) {
+    try {
+        return Integer.parseInt(input.trim());
+    } catch (NumberFormatException e) {
+        return null;
+    }
+}
+
+ 	/**
+	 * Displays librarian-specific menu and routes to admin operations.
+	 */
 
 	private void librarianMenu() {
 		while (true) {
@@ -204,6 +257,8 @@ public class Ui {
 	}
 
 	// User Operations
+
+	/** Displays a list of all available books. */
 	private void showAllBooks() {
 		List<BookDTO> books = userService.showAllBooks();
 		System.out.println("\n--- ALL BOOKS ---");
@@ -214,6 +269,7 @@ public class Ui {
 		}
 	}
 
+	/** Allows the current user to borrow a book by title. */
 	private void borrowBook() {
 		System.out.print("Enter book title to borrow: ");
 		String title = scanner.nextLine();
@@ -221,11 +277,12 @@ public class Ui {
 		try {
 			userService.borrowBook(currentUser, title);
 			System.out.println("Book borrowed successfully!");
-		} catch (BookNotFoundException | UserNotFoundException | InputValidationException e) {
+		} catch (BookNotFoundException | UserNotFoundException | InputValidationException | BookAlreadyBorrowException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
 
+	/** Allows the current user to return a borrowed book. */
 	private void returnBook() {
 		System.out.print("Enter book title to return: ");
 		String title = scanner.nextLine();
@@ -233,11 +290,12 @@ public class Ui {
 		try {
 			userService.returnBook(currentUser, title);
 			System.out.println("Book returned successfully!");
-		} catch (BookNotFoundException | UserNotFoundException | InputValidationException e) {
+		} catch (BookNotFoundException | UserNotFoundException | InputValidationException | BookAlreadyExistException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
 
+	/** Lets the current user update their profile. */
 	private void editProfile() {
 		System.out.println("--- EDIT PROFILE ---");
 		System.out.print("Enter new username (press Enter to skip): ");
@@ -252,35 +310,43 @@ public class Ui {
 				currentUser = newName;
 			}
 			System.out.println("Profile updated successfully!");
-		} catch (UserNotFoundException | InputValidationException e) {
+		} catch (UserNotFoundException | InputValidationException | UserAlreadyExistException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
 
+	/** Sorts and displays books by ID. */
 	private void sortBooksById() {
 		List<BookDTO> books = userService.sortBooksById();
 		System.out.println("\n--- BOOKS SORTED BY ID ---");
 		books.forEach(System.out::println);
 	}
 
+	/** Sorts and displays books by rating. */
 	private void sortBooksByRating() {
 		List<BookDTO> books = userService.sortBooksByRating();
 		System.out.println("\n--- BOOKS SORTED BY RATING ---");
 		books.forEach(System.out::println);
 	}
 
+	/** Sorts and displays books by title. */
 	private void sortBooksByTitle() {
 		List<BookDTO> books = userService.sortBooksByTitle();
 		System.out.println("\n--- BOOKS SORTED BY TITLE ---");
 		books.forEach(System.out::println);
 	}
 
+	/** Displays profile info of the current user. */
 	private void viewProfile() {
 		try {
 			UserDto user = userService.getUserDetails(currentUser);
 			System.out.println("\n--- MY PROFILE ---");
 			System.out.println("Username: " + user.getName());
 			System.out.println("Borrowed Books: " + user.getBorrowedBooks().size());
+			if(user == null) {
+				System.out.println("User not found.");
+				return;
+			}
 			if (!user.getBorrowedBooks().isEmpty()) {
 				System.out.println("Books borrowed:");
 				user.getBorrowedBooks().forEach(book -> System.out.println("  - " + book.getTitle()));
@@ -291,6 +357,8 @@ public class Ui {
 	}
 
 	// Librarian Operations
+
+	/** Adds a new book to the library collection. */
 	private void addBook() {
 		System.out.println("--- ADD BOOK ---");
 		System.out.print("Enter book title: ");
@@ -308,8 +376,14 @@ public class Ui {
 		} catch (InputValidationException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+		catch (BookAlreadyExistException e) {
+			System.out.println("Error: " + e.getMessage());
+		} catch (Exception e) {
+			System.out.println("An unexpected error occurred: " + e.getMessage());
+		}
 	}
 
+	/** Removes a book from the library by title. */
 	private void removeBook() {
 		System.out.print("Enter book title to remove: ");
 		String title = scanner.nextLine();
@@ -322,6 +396,7 @@ public class Ui {
 		}
 	}
 
+	/** Checks if a book is present in the library. */
 	private void checkBookPresent() {
 		System.out.print("Enter book title to check: ");
 		String title = scanner.nextLine();
@@ -333,6 +408,7 @@ public class Ui {
 		}
 	}
 
+	/** Displays all registered users along with borrowed books. */
 	private void showAllUsers() {
 		List<UserDto> users = librarianService.showAllUsers();
 		System.out.println("\n--- ALL USERS ---");
@@ -348,4 +424,6 @@ public class Ui {
 			});
 		}
 	}
+
+	
 }

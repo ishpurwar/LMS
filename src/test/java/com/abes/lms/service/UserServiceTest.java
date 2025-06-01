@@ -2,8 +2,11 @@ package com.abes.lms.service;
 
 import com.abes.lms.dto.BookDTO;
 import com.abes.lms.dto.UserDto;
+import com.abes.lms.exception.BookAlreadyBorrowException;
+import com.abes.lms.exception.BookAlreadyExistException;
 import com.abes.lms.exception.BookNotFoundException;
 import com.abes.lms.exception.InputValidationException;
+import com.abes.lms.exception.UserAlreadyExistException;
 import com.abes.lms.exception.UserNotFoundException;
 import com.abes.lms.util.CollectionUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -161,7 +164,7 @@ public class UserServiceTest {
 
 		userService.borrowBook(TEST_USER, TEST_BOOK_TITLE);
 
-		InputValidationException exception = assertThrows(InputValidationException.class, () -> {
+		BookAlreadyBorrowException exception = assertThrows(BookAlreadyBorrowException.class, () -> {
 			userService.borrowBook("user2", TEST_BOOK_TITLE);
 		});
 		assertTrue(exception.getMessage().contains("already borrowed"));
@@ -202,7 +205,7 @@ public class UserServiceTest {
 
 		userService.borrowBook(TEST_USER, TEST_BOOK_TITLE);
 
-		InputValidationException exception = assertThrows(InputValidationException.class, () -> {
+		BookAlreadyExistException exception = assertThrows(BookAlreadyExistException.class, () -> {
 			userService.returnBook("user2", TEST_BOOK_TITLE);
 		});
 		assertTrue(exception.getMessage().contains("haven't borrowed"));
@@ -254,7 +257,7 @@ public class UserServiceTest {
 		userService.registerUser(TEST_USER, TEST_PASSWORD);
 		userService.registerUser("existinguser", TEST_PASSWORD);
 
-		InputValidationException exception = assertThrows(InputValidationException.class, () -> {
+		UserAlreadyExistException exception = assertThrows(UserAlreadyExistException.class, () -> {
 			userService.editUserDetails(TEST_USER, "existinguser", null);
 		});
 		assertTrue(exception.getMessage().contains("already exists"));

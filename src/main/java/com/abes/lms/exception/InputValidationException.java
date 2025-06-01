@@ -7,3 +7,5 @@ public class InputValidationException extends Exception {
 	}
 }
 
+//Thrown when some incorrect input format is entered by the user
+

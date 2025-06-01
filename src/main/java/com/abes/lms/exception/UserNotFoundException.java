@@ -5,3 +5,5 @@ public class UserNotFoundException extends Exception {
 		super(message);
 	}
 }
+
+//Thrown when an unregistered user details are entered.

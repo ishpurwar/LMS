@@ -1,0 +1,9 @@
+com\abes\lms\dao\UserDaoimplTest.class
+com\abes\lms\dao\BookDaoImplTest.class
+com\abes\lms\dto\BookDTOTest.class
+com\abes\lms\ui\UiTest.class
+com\abes\lms\service\LibrarianServiceTest.class
+com\abes\lms\util\CollectionUtilTest.class
+com\abes\lms\dto\UserDtoTest.class
+com\abes\lms\service\UserServiceTest.class
+com\abes\lms\util\InputValidatorTest.class

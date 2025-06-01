@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.abes.lms.dto.BookDTO;
 
-public class UiLowLevelTest {
+public class UiTest {
 
     @Test
     // added parseMenuCases
