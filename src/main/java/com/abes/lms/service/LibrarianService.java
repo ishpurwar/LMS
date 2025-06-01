@@ -18,7 +18,7 @@ import java.util.List;
  * Provides methods to authenticate librarian, manage books, and view users.
  */
 
-//Constructor initializes DAO implementations for book and user data.
+// Constructor initializes DAO implementations for book and user data.
 public class LibrarianService {
     private BookDao bookDao;
     private UserDao userDao;
@@ -48,8 +48,18 @@ public class LibrarianService {
         bookDao.addBook(book);
     }
 
-    public boolean isBookPresent(String title) {
-        return bookDao.isBookPresent(title);
+    public String isBookPresent(String title) throws BookNotFoundException {
+        if (bookDao.isBookPresent(title) && bookDao.isBookAvailable(title)) {
+
+            return "Book '" + title + "' is present and available for borrowing";
+
+        } else if (bookDao.isBookPresent(title) && !bookDao.isBookAvailable(title)) {
+            return "Book '" + title + "' is present but currently borrowed";
+
+        } else {
+            throw new BookNotFoundException("Book '" + title + "' not found");
+        }
+
     }
 
     public List<UserDto> showAllUsers() {
@@ -61,6 +71,15 @@ public class LibrarianService {
     }
 
     public void removeBook(String title) throws BookNotFoundException {
-        bookDao.removeBook(title);
+        if (bookDao.isBookPresent(title)) {
+            if (bookDao.isBookAvailable(title)) {
+                bookDao.removeBook(title);
+            } else {
+                throw new BookNotFoundException("Book '" + title + "' is currently borrowed and cannot be removed");
+            }
+
+        } else {
+            throw new BookNotFoundException("Book '" + title + "' not found");
+        }
     }
 }

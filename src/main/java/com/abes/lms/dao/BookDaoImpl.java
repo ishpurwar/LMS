@@ -108,4 +108,13 @@ public class BookDaoImpl implements BookDao {
                 .sorted(Comparator.comparing(BookDTO::getTitle))
                 .collect(Collectors.toList());
     }
+    @Override
+    public boolean isBookAvailable(String title) {
+        try {
+            BookDTO book = findBookByTitle(title);
+            return book.isAvailable();
+        } catch (BookNotFoundException e) {
+            return false;
+        }
+    }
 }
