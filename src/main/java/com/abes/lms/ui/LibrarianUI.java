@@ -100,11 +100,13 @@ public class LibrarianUI {
     private void checkBookPresent() {
         System.out.print("Enter book title to check: ");
         String title = scanner.nextLine();
-
-        if (librarianService.isBookPresent(title)) {
-            System.out.println("Book '" + title + "' is present in the library.");
-        } else {
-            System.out.println("Book '" + title + "' is not found in the library.");
+        try {
+            String result = librarianService.isBookPresent(title);
+            System.out.println(result);
+        } catch (BookNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
 

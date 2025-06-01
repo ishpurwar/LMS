@@ -55,7 +55,7 @@ public class LibrarianServiceTest {
 
     @Test
     @DisplayName("Should add book successfully with valid data")
-    void testAddBookSuccess() throws InputValidationException {
+    void testAddBookSuccess() throws InputValidationException, BookNotFoundException {
         String title = "New Test Book";
         String author = "Test Author";
         double rating = 4.5;
