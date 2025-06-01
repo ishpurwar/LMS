@@ -1,5 +1,12 @@
 package com.abes.lms.ui;
 
+<<<<<<< HEAD
+import com.abes.lms.exception.InputValidationException;
+import com.abes.lms.exception.UserAlreadyExistException;
+import com.abes.lms.service.LibrarianService;
+import com.abes.lms.service.UserService;
+import java.util.Scanner;
+=======
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,19 +28,29 @@ import com.abes.lms.service.LibrarianService;
 import com.abes.lms.service.UserService;
 
 /** Constructor initializes scanner and service layers. */
+>>>>>>> 14caa3658349fc0a88c9e6b66b28b03039ef29eb
 
 public class Ui {
-	private Scanner scanner;
-	private UserService userService;
-	private LibrarianService librarianService;
-	private String currentUser;
+    private Scanner scanner;
+    private UserService userService;
+    private LibrarianService librarianService;
+    private UserUI userUI;
+    private LibrarianUI librarianUI;
 
-	public Ui() {
-		this.scanner = new Scanner(System.in);
-		this.userService = new UserService();
-		this.librarianService = new LibrarianService();
-	}
+    public Ui() {
+        this.scanner = new Scanner(System.in);
+        this.userService = new UserService();
+        this.librarianService = new LibrarianService();
+        this.userUI = new UserUI(scanner, userService);
+        this.librarianUI = new LibrarianUI(scanner, librarianService, userService);
+    }
 
+<<<<<<< HEAD
+    public static void starter() {
+        System.out.println("===========================================");
+        System.out.println("  Welcome to the Library Management System");
+        System.out.println("===========================================");
+=======
 	/** 
 	 * Entry point method to start the LMS application.
 	 */
@@ -42,11 +59,22 @@ public class Ui {
 		System.out.println("===========================================");
 		System.out.println("  Welcome to the Library Management System");
 		System.out.println("===========================================");
+>>>>>>> 14caa3658349fc0a88c9e6b66b28b03039ef29eb
 
-		Ui ui = new Ui();
-		ui.mainMenu();
-	}
+        Ui ui = new Ui();
+        ui.mainMenu();
+    }
 
+<<<<<<< HEAD
+    private void mainMenu() {
+        while (true) {
+            System.out.println("\n--- MAIN MENU ---");
+            System.out.println("1. User Registration");
+            System.out.println("2. User Login");
+            System.out.println("3. Librarian Login");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+=======
 	/**
 	 * Displays the main menu and routes user to registration/login flows.
 	 */
@@ -59,31 +87,61 @@ public class Ui {
 			System.out.println("3. Librarian Login");
 			System.out.println("4. Exit");
 			System.out.print("Choose an option: ");
+>>>>>>> 14caa3658349fc0a88c9e6b66b28b03039ef29eb
 
-			try {
-				int choice = Integer.parseInt(scanner.nextLine());
-				switch (choice) {
-				case 1:
-					userRegistration();
-					break;
-				case 2:
-					userLogin();
-					break;
-				case 3:
-					librarianLogin();
-					break;
-				case 4:
-					System.out.println("Thank you for using Library Management System!");
-					return;
-				default:
-					System.out.println("Invalid choice. Please try again.");
-				}
-			} catch (NumberFormatException e) {
-				System.out.println("Please enter a valid number.");
-			}
-		}
-	}
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                case 1:
+                    userRegistration();
+                    break;
+                case 2:
+                    userLogin();
+                    break;
+                case 3:
+                    librarianLogin();
+                    break;
+                case 4:
+                    System.out.println("Thank you for using Library Management System!");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
 
+<<<<<<< HEAD
+    private void userRegistration() {
+        System.out.println("\n--- USER REGISTRATION ---");
+        System.out.print("Enter username: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+
+        try {
+            userService.registerUser(name, password);
+            System.out.println("Registration successful!");
+        } catch (InputValidationException e) {
+            System.out.println("Registration failed: " + e.getMessage());
+        }
+        catch (UserAlreadyExistException e){
+            System.out.println("Registration failed: " + e.getMessage());
+        }
+        catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
+    private void userLogin() {
+        System.out.println("\n--- USER LOGIN ---");
+        System.out.print("Enter username: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+=======
 	/**
 	 * Handles user registration with input validation and error handling.
 	 */
@@ -119,16 +177,34 @@ public class Ui {
 		String name = scanner.nextLine();
 		System.out.print("Enter password: ");
 		String password = scanner.nextLine();
+>>>>>>> 14caa3658349fc0a88c9e6b66b28b03039ef29eb
 
-		if (userService.authenticateUser(name, password)) {
-			System.out.println("Login successful! Welcome, " + name);
-			currentUser = name;
-			userMenu();
-		} else {
-			System.out.println("Invalid credentials. Please try again.");
-		}
-	}
+        if (userService.authenticateUser(name, password)) {
+            System.out.println("Login successful! Welcome, " + name);
+            userUI.setCurrentUser(name);
+            userUI.userMenu();
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+        }
+    }
 
+<<<<<<< HEAD
+    private void librarianLogin() {
+        System.out.println("\n--- LIBRARIAN LOGIN ---");
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+
+        if (librarianService.authenticateLibrarian(username, password)) {
+            System.out.println("Login successful! Welcome, Librarian");
+            librarianUI.librarianMenu();
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+        }
+    }
+}
+=======
 	/**
 	 * Handles librarian login and navigates to librarian menu on success.
 	 */
@@ -427,3 +503,4 @@ public class Ui {
 
 	
 }
+>>>>>>> 14caa3658349fc0a88c9e6b66b28b03039ef29eb
