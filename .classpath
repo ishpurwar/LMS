@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -14,6 +18,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+=======
 	<classpathentry kind="lib" path="c:/Users/tarun/.vscode/extensions/vscjava.vscode-java-test-0.43.1/server/junit-jupiter-api_5.11.0.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://junit.org/junit5/docs/current/api/"/>
@@ -91,29 +99,24 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="c:/Users/tarun/.vscode/extensions/redhat.java-1.42.0-win32-x64/server/plugins/org.hamcrest_3.0.0.jar"/>
 	<classpathentry kind="lib" path="c:/Users/tarun/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.9.1/junit-jupiter-engine-5.9.1.jar">
+>>>>>>> d2cc82ff0b5d1e8aa008a0d089e543e7318c4aaf
 		<attributes>
-			<attribute name="maven.artifactId" value="junit-jupiter-engine"/>
 			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="test" value="true"/>
-			<attribute name="maven.scope" value="test"/>
-			<attribute name="maven.version" value="5.9.1"/>
-			<attribute name="maven.groupId" value="org.junit.jupiter"/>
+			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="c:/Users/tarun/.m2/repository/org/junit/platform/junit-platform-engine/1.9.1/junit-platform-engine-1.9.1.jar">
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
 		<attributes>
-			<attribute name="maven.artifactId" value="junit-platform-engine"/>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="test" value="true"/>
-			<attribute name="maven.scope" value="test"/>
-			<attribute name="maven.version" value="1.9.1"/>
-			<attribute name="maven.groupId" value="org.junit.platform"/>
+			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="c:/Users/tarun/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar">
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
-			<attribute name="maven.artifactId" value="apiguardian-api"/>
 			<attribute name="maven.pomderived" value="true"/>
+<<<<<<< HEAD
+=======
 			<attribute name="test" value="true"/>
 			<attribute name="maven.scope" value="test"/>
 			<attribute name="maven.version" value="1.1.2"/>
@@ -159,6 +162,7 @@
 			<attribute name="maven.scope" value="test"/>
 			<attribute name="maven.version" value="1.9.1"/>
 			<attribute name="maven.groupId" value="org.junit.platform"/>
+>>>>>>> d2cc82ff0b5d1e8aa008a0d089e543e7318c4aaf
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>

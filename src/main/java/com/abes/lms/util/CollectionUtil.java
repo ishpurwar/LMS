@@ -32,7 +32,7 @@ public class CollectionUtil {
     }
 
     public static boolean removeBook(String title) {
-        return books.removeIf(book -> book.getTitle().equalsIgnoreCase(title));
+        return books.removeIf(book -> book.getTitle().equalsIgnoreCase(title) && book.getBorrowedBy()==null);
     }
 
     public static BookDTO findBookByTitle(String title) {
