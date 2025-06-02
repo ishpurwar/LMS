@@ -22,4 +22,5 @@ public interface BookDao {
     List<BookDTO> sortBooksById();
 
     List<BookDTO> sortBooksByTitle();
+    boolean isBookAvailable(String title) throws BookNotFoundException;
 }
